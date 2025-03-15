@@ -13,6 +13,7 @@
           (python3.withPackages (ps: with ps; [
             pyside6
           ]))
+          black
         ];
       };
       });
