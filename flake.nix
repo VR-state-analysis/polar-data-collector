@@ -16,6 +16,12 @@
           black
         ];
       };
+        packages.server = pkgs.buildGoModule {
+          pname = "polar-data-collector";
+          name = "polar-data-collector";
+          src = ./server;
+          vendorHash = "sha256-WA7PLEaT7lpBkIQHXbRSrQO7mfip4mRS7xMck6lVAFs=";
+        };
       });
 }
 

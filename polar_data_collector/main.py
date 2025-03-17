@@ -11,6 +11,7 @@ from PySide6.QtBluetooth import (
 from PySide6.QtCore import QByteArray
 
 import database
+import http_client
 import parse
 
 
@@ -104,6 +105,7 @@ def on_heart_rate_changed(
             f"[{device.name()}] Heart Rate Measurement: {measurement.heart_rate_measurement_value} bpm; RR Interval: {measurement.rr_interval}; Flags: {flags}"
         )
         database.add_entry(measurement)
+        http_client.send_data(measurement)
 
 
 def discover():
