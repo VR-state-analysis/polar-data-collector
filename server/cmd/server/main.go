@@ -11,10 +11,12 @@ import (
 
 func main() {
 	var addr string
+	var dbPath string
 	flag.StringVar(&addr, "addr", ":8080", "address to listen on")
+	flag.StringVar(&dbPath, "db", "db.sqlite3", "path to the database file")
 	flag.Parse()
 
-	db, err := sql.Open("sqlite3", "file:db.sqlite3")
+	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		log.Fatal(err)
 	}
