@@ -1,0 +1,8 @@
+[Unit]
+Description=Collects heart rate data from nearby (BLE) Polar devices and sends them to Ken's server
+
+[Service]
+ExecStart=/home/gtxr-vrsa/polar-data-collector/venv/bin/python /home/gtxr-vrsa/polar-data-collector/polar_data_collector
+
+[Install]
+WantedBy=multi-user.target
