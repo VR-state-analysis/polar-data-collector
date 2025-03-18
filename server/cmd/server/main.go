@@ -5,6 +5,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"strconv"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -28,6 +29,22 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
+	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+		row := db.QueryRow("SELECT * FROM heart_rate ORDER BY measured_time DESC LIMIT 1")
+		var measuredTime string
+		var heartRate int
+		var rrIntervals string
+		err := row.Scan(&measuredTime, &heartRate, &rrIntervals)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "text/plain")
+		w.Write([]byte(measuredTime + "\n"))
+		w.Write([]byte("Heart rate: " + strconv.FormatInt(int64(heartRate), 10) + " bpm\n"))
+		w.Write([]byte("RR intervals: " + rrIntervals + "\n"))
+	})
 	mux.HandleFunc("POST /", func(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
